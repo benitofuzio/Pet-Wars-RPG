@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pet Wars</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+</head>
+  <body>
+    <div class="row" id="characters">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-3" id="combat">
+        <div class="row">
+          <div class="col-xs-8 col-sm-6" id="you">
+          </div>
+          <div class="col-xs-8 col-sm-6" id="health">
+          </div>
+        </div>
+        <div class="row">
+        <div class="col-xs-8 col-sm-6" id="opponent">
+          </div>
+          <div class="col-xs-8 col-sm-6" id="opponent-health">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-7">
+        <div class="row">
+          <div class="col-sm-12" id="starting-point">
+            
+            <div class="row">
+              <div class="col-xs-8 col-sm-3" id="mac">
+                
+              </div>
+              <div class="col-xs-4 col-sm-3" id="queso">
+                
+              </div>
+              <div class="col-xs-8 col-sm-3" id="grumpycat">
+                
+              </div>
+              <div class="col-xs-4 col-sm-3" id="garfield">
+               
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12" id="opponents">
+            <div class="row">
+              <div class="col-xs-8 col-sm-3" id="macOpp">
+                
+              </div>
+              <div class="col-xs-4 col-sm-3" id="quesoOpp">
+                
+              </div>
+              <div class="col-xs-8 col-sm-3" id="grumpycatOpp">
+                
+              </div>
+              <div class="col-xs-8 col-sm-3" id="garfieldOpp">
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-10" id="display">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+      </div>
+      <div class="col-md-6" id="title">
+        <p id="pet-wars">Pet Wars: RPG</p>
+      </div>
+    </div>
+    <script type="text/javascript">
+      var mac = "";
+      var queso = "";
+      var grumpycat = "";
+      var garfield = "";
+      var macURL = '<img src="assets/images/mac.png" class="profile-pic">';
+      var quesoURL = '<img src="assets/images/queso.png" class="profile-pic">';
+      var grumpycatURL = '<img src="assets/images/grumpycat.png" class="profile-pic">';
+      var garfieldURL = '<img src="assets/images/garfield.png" class="profile-pic">';
+      var hasOpponent = false;
+      var numOpponents = 3;
+      var you = "";
+      var opponent = "";
+      function start() {
+        mac = new fighter("Mac", 140, 7, 10);
+        queso = new fighter("Queso", 180, 8, 15);
+        grumpycat = new fighter("Grumpy Cat", 220, 9, 18);
+        garfield = new fighter("Garfield", 165, 6, 8);
+        $("#mac").html(macURL);
+        $("#queso").html(quesoURL);
+        $("#grumpycat").html(grumpycatURL);
+        $("#garfield").html(garfieldURL);
+        $("#display").html('<p id="instructions">Choose Your Character!</p>')
+      }
+      function fighter(name, health, attack, counter) {
+        this.name=name;
+        this.health=health;
+        this.attack=attack;
+        this.counter=counter;
+      }
+      function chosen() {
+        $("#mac").html("");
+        $("#queso").html("");
+        $("#grumpycat").html("");
+        $("#garfield").html("");
+        $("#instructions").text("Choose Your Opponent!");
+      }
+
+      document.onload = start();
+      $("#mac").click(function() {
+        you = mac;
+        $("#you").html(macURL)
+        $("#health").html('<p>Mac<br>Health: ' + mac.health + '</p>');
+        chosen();
+        $("#quesoOpp").html(quesoURL);
+        $("#grumpycatOpp").html(grumpycatURL);
+        $("#garfieldOpp").html(garfieldURL);
+      })
+      $("#queso").click(function() {
+        you = queso;
+        $("#you").html(quesoURL);
+        $("#health").html('<p>Queso<br>Health: ' + queso.health + '</p>');
+        chosen();
+        $("#macOpp").html(macURL);
+        $("#grumpycatOpp").html(grumpycatURL);
+        $("#garfieldOpp").html(garfieldURL);
+      })
+      $("#grumpycat").click(function() {
+        you = grumpycat;
+        $("#you").html(grumpycatURL);
+        $("#health").html('<p>Grumpy Cat<br>Health: ' + grumpycat.health + '</p>');
+        chosen();
+        $("#macOpp").html(macURL);
+        $("#quesoOpp").html(quesoURL);
+        $("#garfieldOpp").html(garfieldURL);
+      })
+      $("#garfield").click(function() {
+        you = garfield;
+        $("#you").html(garfieldURL);
+        $("#health").html('<p>Garfield<br>Health: ' + garfield.health + '</p>');
+        chosen();
+        $("#macOpp").html(macURL);
+        $("#quesoOpp").html(quesoURL);
+        $("#grumpycatOpp").html(grumpycatURL);
+      })
+
+      $("#macOpp").click(function() {
+        if(!hasOpponent)
+        {
+          opponent = mac;
+          $("#opponent").html(macURL);
+          $("#opponent-health").html('<p>Mac<br>Health: ' + mac.health + '</p>');
+          $("#macOpp").html("");
+          $("#instructions").html('<button onClick="attack()">Attack!</button>');
+          hasOpponent = true;
+        }
+      })
+      $("#quesoOpp").click(function() {
+        if(!hasOpponent)
+        {
+          opponent = queso;
+          $("#opponent").html(quesoURL);
+          $("#opponent-health").html('<p>Queso<br>Health: ' + queso.health + '</p>');
+          $("#quesoOpp").html("");
+          $("#instructions").html('<button onClick="attack()">Attack!</button>');
+          hasOpponent = true;
+        }
+      })
+      $("#grumpycatOpp").click(function() {
+        if(!hasOpponent)
+        {
+          opponent = grumpycat;
+          $("#opponent").html(grumpycatURL);
+          $("#opponent-health").html('<p>Grumpy Cat<br>Health: ' + grumpycat.health + '</p>');
+          $("#grumpycatOpp").html("");
+          $("#instructions").html('<button onClick="attack()">Attack!</button>');
+          hasOpponent = true;
+        }
+      })
+      $("#garfieldOpp").click(function() {
+        if(!hasOpponent)
+        {
+          opponent = garfield;
+          $("#opponent").html(garfieldURL);
+          $("#opponent-health").html('<p>Garfield<br>Health: ' + garfield.health + '</p>');
+          $("#garfieldOpp").html("");
+          $("#instructions").html('<button onClick="attack()">Attack!</button>');
+          hasOpponent = true;
+        }
+      })
+
+      function attack(){
+        opponent.health -= you.attack;
+        updateHealthOpp();
+        if(opponent.health <= 0)
+        {
+          $("#instructions").html("You won!  Choose Your Next Opponent!");
+          $("#opponent").html("");
+          $("#opponent-health").html("");
+          numOpponents--;
+          hasOpponent = false;
+          if(numOpponents == 0)
+          {
+            $("#instructions").html("You Win!");
+            location = "https://www.youtube.com/watch?v=kF15DSJa4v4"
+          }
+         return;
+        }
+        you.health -= opponent.counter;
+        updateHealthYou();
+        if(you.health <= 0)
+        {
+          $("#health").html("Health: 0");
+          $("#instructions").html("Game Over!");
+        }
+      }
+      function updateHealthOpp(){
+        if(opponent.name == mac.name)
+        {
+          $("#opponent-health").html('<p>Mac<br>Health: ' + opponent.health + '</p>');
+        }
+        if(opponent.name == queso.name)
+        {
+          $("#opponent-health").html('<p>Queso<br>Health: ' + opponent.health + '</p>');
+        }
+        if(opponent.name == grumpycat.name)
+        {
+          $("#opponent-health").html('<p>Grumpy Cat<br>Health: ' + opponent.health + '</p>');
+        }
+        if(opponent.name == garfield.name)
+        {
+          $("#opponent-health").html('<p>Garfield<br>Health: ' + opponent.health + '</p>');
+        }
+      }
+      function updateHealthYou(){
+        if(you.name == mac.name)
+        {
+          you.attack += 7;
+          $("#health").html('<p>Mac<br>Health: ' + you.health + '</p>');
+        }
+        if(you.name == queso.name)
+        {
+          you.attack += 9;
+          $("#health").html('<p>Queso<br>Health: ' + you.health + '</p>');
+        }
+        if(you.name == grumpycat.name)
+        {
+          you.attack += 8;
+          $("#health").html('<p>Grumpy Cat<br>Health: ' + you.health + '</p>');
+        }
+        if(you.name == garfield.name)
+        {
+          you.attack += 10;
+          $("#health").html('<p>Garfield<br>Health: ' + you.health + '</p>');
+        }
+      }
+    </script>
+  </body>
+</html>
